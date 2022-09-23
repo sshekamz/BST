@@ -1,66 +1,129 @@
-class Node {
-    constructor(value){
-        this.value = value
-        this.left = null
-        this.right = null
+// Node class
+class Node
+{
+	constructor(data)
+	{
+		this.data = data;
+		this.left = null;
+		this.right = null;
+	}
+}
+class BinarySearchTree
+{
+    constructor()
+    {
+        // root of a binary search tree
+        this.root = null;
     }
-  }
-  
-  class BinarySeachTree {
-        constructor(){
-          this.root = null
-        }
-    
-    insert(value){
-          var newNode = new Node(value);
-          if(this.root === null){
-              this.root = newNode;
-              return this;
-          }
-          let current = this.root;
-          while(current){
-              if(value === current.value) return undefined;
-              if(value < current.value){
-                  if(current.left === null){
-                      current.left = newNode;
-                      return this;
-                  }
-                  current = current.left;
-              } else {
-                  if(current.right === null){
-                      current.right = newNode;
-                      return this;
-                  } 
-                  current = current.right;
-              }
-          }
-      }
-      find(value){
-        if(!this.root) return false
-        
-        let current = this.root
-        let found = false
-        while(current && !found){
-              if(value < current.value){
-                current = current.left
-               } else if(value > current.value){
-                  current = current.right
-               } else {
-                    found = current
-               } 
-              
-              }
-      
-          if(!found) return undefined;
-          return found
-        
-    
-    }
-  }
-  const bst=new BinarySeachTree();
-  bst.insert(2);
-  bst.insert(4);
-  bst.insert(1);
-  bst.insert(3)
-  console.log(bst.find(2));
-  
+    // helper method which creates a new node to
+// be inserted and calls insertNode
+insert(data)
+{
+	// Creating a node and initialising
+	// with data
+	var newNode = new Node(data);
+					
+	// root is null then node will
+	// be added to the tree and made root.
+	if(this.root === null)
+		this.root = newNode;
+	else
+
+		// find the correct position in the
+		// tree and add the node
+		this.insertNode(this.root, newNode);
+}
+
+// Method to insert a node in a tree
+// it moves over the tree to find the location
+// to insert a node with a given data
+insertNode(node, newNode)
+{
+	// if the data is less than the node
+	// data move left of the tree
+	if(newNode.data < node.data)
+	{
+		// if left is null insert node here
+		if(node.left === null)
+			node.left = newNode;
+		else
+
+			// if left is not null recur until
+			// null is found
+			this.insertNode(node.left, newNode);
+	}
+
+	// if the data is more than the node
+	// data move right of the tree
+	else
+	{
+		// if right is null insert node here
+		if(node.right === null)
+			node.right = newNode;
+		else
+
+			// if right is not null recur until
+			// null is found
+			this.insertNode(node.right,newNode);
+	}
+}
+// Performs preorder traversal of a tree
+preorder(node)
+{
+	if(node !== null)
+	{
+		console.log(node.data);
+		this.preorder(node.left);
+		this.preorder(node.right);
+	}
+}
+
+// returns root of the tree
+getRootNode()
+{
+	return this.root;
+}
+
+// search for a node with given data
+search(node, data)
+{
+// if trees is empty return null
+	if(node === null)
+		return null;
+
+	// if data is less than node's data
+	// move left
+	else if(data < node.data)
+		return this.search(node.left, data);
+
+	// if data is less than node's data
+	// move left
+	else if(data > node.data)
+		return this.search(node.right, data);
+
+	// if data is equal to the node data
+	// return node
+	else
+		return node;
+}
+
+}
+// create an object for the BinarySearchTree
+var BST = new BinarySearchTree();
+ 
+// Inserting nodes to the BinarySearchTree
+BST.insert(15);
+BST.insert(25);
+BST.insert(10);
+BST.insert(7);
+BST.insert(22);
+BST.insert(17);
+BST.insert(13);
+BST.insert(5);
+BST.insert(9);
+BST.insert(27);
+var root = BST.getRootNode();
+console.log("preorder traversal");
+ 
+// prints 9 10 13 17 22 25 27
+BST.preorder(root);
